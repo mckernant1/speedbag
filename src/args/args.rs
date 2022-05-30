@@ -4,9 +4,11 @@ use clap::{ArgEnum, Parser};
 #[clap(author, version, about, long_about = None)]
 #[clap(propagate_version = true)]
 pub struct Cli {
+    /// The port to run on
     #[clap(short, long, default_value_t = 8000)]
     pub port: u16,
 
+    /// the endpoints on the test server you want to enable
     #[clap(short, long, arg_enum)]
     pub endpoints: Vec<Endpoint>,
 
