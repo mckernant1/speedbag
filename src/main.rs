@@ -6,20 +6,20 @@ mod utils;
 extern crate rocket;
 
 use crate::args::args::Cli;
-use crate::args::args::Endpoint::{Directory, LoadTesting};
+use crate::args::args::Endpoint::{All, Directory, LoadTesting};
 use crate::endpoints::base::index;
+use crate::endpoints::current_dir::current_dir;
 use crate::endpoints::rps_testing::{rps_count, rps_totals};
 use clap::Parser;
 use log::log_enabled;
 use log::Level::Info;
-use rocket::fs::{FileServer, Options};
+
 use rocket::Config;
 use simplelog::{ColorChoice, CombinedLogger, ConfigBuilder, TermLogger, TerminalMode};
 use std::collections::HashMap;
-use std::env;
-use std::path::Path;
+
+
 use std::sync::{Arc, Mutex};
-use crate::endpoints::current_dir::current_dir;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
@@ -40,7 +40,7 @@ async fn main() -> Result<(), rocket::Error> {
 
     let rocket = rocket::build().mount("/", routes![index]);
 
-    let rocket = if args.endpoints.contains(&LoadTesting) {
+    let rocket = if args.endpoints.contains(&LoadTesting) || args.endpoints.contains(&All) {
         rocket
             .mount("/", routes![rps_count, rps_totals])
             .manage(Arc::new(Mutex::new(HashMap::<i64, u64>::new())))
@@ -48,7 +48,7 @@ async fn main() -> Result<(), rocket::Error> {
         rocket
     };
 
-    let rocket = if args.endpoints.contains(&Directory) {
+    let rocket = if args.endpoints.contains(&Directory) || args.endpoints.contains(&All) {
         rocket.mount("/", routes![current_dir])
     } else {
         rocket

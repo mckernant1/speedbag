@@ -18,6 +18,8 @@ pub struct Cli {
 
 #[derive(Copy, Clone, PartialEq, Eq, ArgEnum, Debug)]
 pub enum Endpoint {
+    /// Add all the endpoints
+    All,
     /// Add the load testing endpoints /rps-count and /rps-totals
     LoadTesting,
     /// Add the base / endpoint that just returns hello world
