@@ -1,6 +1,6 @@
 use clap::{ArgEnum, Parser};
 
-#[derive(Parser, Debug)]
+#[derive(Parser, Debug, Clone)]
 #[clap(author, version, about, long_about = None)]
 #[clap(propagate_version = true)]
 pub struct Cli {
@@ -22,4 +22,6 @@ pub enum Endpoint {
     LoadTesting,
     /// Add the base / endpoint that just returns hello world
     Base,
+    /// Add the current directory as an endpoint on /cwd
+    Directory,
 }
