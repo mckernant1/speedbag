@@ -28,7 +28,7 @@ async fn main() -> Result<(), rocket::Error> {
 
     CombinedLogger::init(vec![TermLogger::new(
         log_level,
-        ConfigBuilder::new().set_time_to_local(true).build(),
+        ConfigBuilder::new().set_time_offset_to_local().unwrap().build(),
         TerminalMode::Stdout,
         ColorChoice::Auto,
     )])
