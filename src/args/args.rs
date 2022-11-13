@@ -1,4 +1,4 @@
-use clap::{ArgEnum, Parser};
+use clap::{ValueEnum, Parser};
 
 #[derive(Parser, Debug, Clone)]
 #[clap(author, version, about, long_about = None)]
@@ -9,14 +9,14 @@ pub struct Cli {
     pub port: u16,
 
     /// the endpoints on the test server you want to enable
-    #[clap(short, long, arg_enum)]
+    #[clap(short, long, value_enum)]
     pub endpoints: Vec<Endpoint>,
 
     #[clap(flatten)]
     pub verbose: clap_verbosity_flag::Verbosity,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, ArgEnum, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, ValueEnum, Debug)]
 pub enum Endpoint {
     /// Add all the endpoints
     All,

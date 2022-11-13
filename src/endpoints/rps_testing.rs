@@ -24,8 +24,10 @@ pub fn rps_totals(rps_map: &State<Arc<Mutex<HashMap<i64, u64>>>>) -> String {
         .map(|(&timestamp, &counter)| {
             format!(
                 "{}: {}",
-                DateTime::<Utc>::from_utc(NaiveDateTime::from_timestamp(timestamp, 0), Utc)
-                    .with_timezone(&Local),
+                DateTime::<Utc>::from_utc(
+                    NaiveDateTime::from_timestamp_opt(timestamp, 0).expect("could not parse timestamp"),
+                    Utc,
+                ).with_timezone(&Local),
                 counter
             )
         })
